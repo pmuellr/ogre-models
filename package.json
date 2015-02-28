@@ -1,0 +1,29 @@
+{
+  "name":               "ogre-models",
+  "version":            "0.1.0",
+  "description":        "models for the game ogre",
+  "author":             "pmuellr",
+  "main":               "lib/ogre-models",
+  "scripts": {
+    "cake":             "cake",
+    "watch":            "cake watch",
+    "test":             "cake test"
+  },
+  "homepage":           "https://github.com/pmuellr/ogre-models",
+  "license":            "Apache-2.0",
+  "repository": {
+    "type":             "git",
+    "url" :             "https://github.com/pmuellr/ogre-models.git"
+  },
+  "dependencies": {
+    "debug":            "2.1.x",
+    "underscore":       "1.7.x"
+  },
+  "devDependencies": {
+    "cakex":            "0.1.x",
+    "coffee-script":    "1.9.x",
+    "jshint":           "2.6.x",
+    "tape":             "3.5.x",
+    "faucet":           "0.0.x"
+  }
+}
