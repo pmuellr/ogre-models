@@ -40,10 +40,12 @@ function tester(t) {
 
     t.end()
 
+    //---------------------------------
     function ok(x,y) {
       t.ok(map.isValidXY(x,y), "" + x + "," + y + " should be a valid XY")
     }
 
+    //---------------------------------
     function notok(x,y) {
       t.notok(map.isValidXY(x,y), "" + x + "," + y + " should not be a valid XY")
     }
@@ -74,51 +76,93 @@ function tester(t) {
     var expected
 
     nabors = map.getNabors(1,1)
-    t.deepEqual(nabors, [], "1,1 should have no nabors")
+    t.deepLooseEqual(nabors, [], "1,1 should have no nabors")
 
     nabors   = map.getNabors(1,2)
     expected = [
-      [1, 3, false],
-      [2, 1, false],
-      [2, 2, false]
+      { loc: [1, 3] },
+      { loc: [2, 1] },
+      { loc: [2, 2] }
     ]
-    t.deepEqual(nabors, expected, "1,2 nabors not correct")
+    t.deepLooseEqual(nabors, expected, "1,2 nabors not correct")
 
     nabors   = map.getNabors(2,3)
     expected = [
-      [1, 3, true],
-      [1, 4, false],
-      [2, 2, false],
-      [2, 4, false],
-      [3, 3, false]
+      { loc: [1, 3], rubble: true },
+      { loc: [1, 4] },
+      { loc: [2, 2] },
+      { loc: [2, 4] },
+      { loc: [3, 3] },
+      { loc: [3, 4], crater: true },
     ]
-    t.deepEqual(nabors, expected, "2,3 nabors not correct")
+    t.deepLooseEqual(nabors, expected, "2,3 nabors not correct")
 
     nabors   = map.getNabors(1,22)
     expected = [
-      [1, 21, false],
-      [2, 21, false],
-      [2, 22, false]
+      { loc: [1, 21] },
+      { loc: [2, 21] },
+      { loc: [2, 22] }
     ]
-    t.deepEqual(nabors, expected, "1,22 nabors not correct")
+    t.deepLooseEqual(nabors, expected, "1,22 nabors not correct")
 
     nabors   = map.getNabors(15,2)
     expected = [
-      [ 14, 1, false ],
-      [ 14, 2, false ],
-      [ 15, 3, false ]
+      { loc: [14, 1] },
+      { loc: [14, 2] },
+      { loc: [15, 3] }
     ]
-    t.deepEqual(nabors, expected, "15,2 nabors not correct")
+    t.deepLooseEqual(nabors, expected, "15,2 nabors not correct")
 
     nabors   = map.getNabors(15,22)
     expected = [
-      [14, 21, false],
-      [14, 22, false],
-      [15, 21, false]
+      { loc: [14, 21] },
+      { loc: [14, 22] },
+      { loc: [15, 21] }
     ]
-    t.deepEqual(nabors, expected, "15,22 nabors not correct")
+    t.deepLooseEqual(nabors, expected, "15,22 nabors not correct")
 
     t.end()
+  })
+
+  //-----------------------------------
+  t.test("- distance", function(t) {
+    equal(t, 1,2, 1,2, 0)
+    equal(t, 1,2, 1,3, 1)
+    equal(t, 1,2, 1,4, 2)
+    equal(t, 1,2, 1,5, 3)
+
+    equal(t, 1,2, 2,1, 1)
+    equal(t, 1,2, 3,2, 2)
+    equal(t, 1,2, 4,1, 3)
+
+    equal(t, 1,2, 3,3, 2)
+    equal(t, 1,2, 3,4, 3)
+    equal(t, 1,2, 3,4, 3)
+
+    t.end()
+
+    //---------------------------------
+    function equal(t, x1, y1, x2, y2, ed) {
+      var ad
+      var message
+
+      ad = map.distance(x1,y1, x2,y2)
+      message = "distance from " +
+        x1 + "," + y1 + " to " +
+        x2 + "," + y2 +
+        " should be " + ed + " not " + ad
+
+      t.equal(ad, ed, message)
+
+      ad = map.distance(x2,y2, x1,y1)
+      message = "distance from " +
+        x2 + "," + y2 + " to " +
+        x1 + "," + y1 +
+        " should be " + ed + " not " + ad
+
+      t.equal(ad, ed, message)
+    }
+
   })
 
 }
